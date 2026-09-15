@@ -66,6 +66,8 @@ cp .env.example .env
 docker compose up --build
 ```
 
+Cloud deployment notes are in [docs/deployment.md](docs/deployment.md).
+
 ## Tests
 
 ```bash
