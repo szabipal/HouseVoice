@@ -1,5 +1,6 @@
 from app.bot.handlers.inventory_handler import parse_inventory_command
 from app.bot.handlers.message_handler import MessageHandler
+from app.bot.telegram_client import TelegramClient
 from app.domain.enums import Visibility
 from app.llm.schemas import ReceiptExtractionResult
 
@@ -75,3 +76,13 @@ def test_telegram_receipt_photo_uses_receipt_service(session, monkeypatch):
     assert "Added 2 item(s) from receipt:" in telegram.messages[0][1]
     assert "- eggs" in telegram.messages[0][1]
     assert "eggs: 6 piece" in telegram.messages[1][1]
+
+
+def test_telegram_client_requires_token():
+    client = TelegramClient(token="")
+    try:
+        client.send_message(999, "hello")
+    except RuntimeError as exc:
+        assert str(exc) == "TELEGRAM_TOKEN is not configured"
+    else:
+        raise AssertionError("expected missing token to fail visibly")

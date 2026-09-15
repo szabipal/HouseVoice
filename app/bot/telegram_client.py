@@ -10,12 +10,13 @@ class TelegramClient:
 
     def send_message(self, chat_id: int, text: str) -> None:
         if not self.token:
-            return
-        requests.post(
+            raise RuntimeError("TELEGRAM_TOKEN is not configured")
+        response = requests.post(
             f"{self.base_url}/sendMessage",
             json={"chat_id": chat_id, "text": text},
             timeout=10,
         )
+        response.raise_for_status()
 
     def download_file(self, file_id: str) -> bytes:
         if not self.token:
