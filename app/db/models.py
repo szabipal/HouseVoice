@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import UTC, datetime
 
 from sqlalchemy import Boolean, Column, Date, DateTime, Enum, Float, ForeignKey, Integer, String, Text, UniqueConstraint
 from sqlalchemy.orm import relationship
@@ -7,13 +7,17 @@ from app.db.base import Base
 from app.domain.enums import TransactionType, Visibility
 
 
+def utc_now() -> datetime:
+    return datetime.now(UTC)
+
+
 class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True)
     telegram_id = Column(Integer, unique=True, nullable=True)
     display_name = Column(String(120), nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    created_at = Column(DateTime, default=utc_now, nullable=False)
 
     memberships = relationship("HouseholdMembership", back_populates="user")
 
@@ -23,7 +27,7 @@ class Household(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(120), nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    created_at = Column(DateTime, default=utc_now, nullable=False)
 
     memberships = relationship("HouseholdMembership", back_populates="household")
 
@@ -55,7 +59,7 @@ class InventoryItem(Base):
     purchase_date = Column(Date, nullable=False)
     expiry_date = Column(Date, nullable=True)
     low_stock_threshold = Column(Float, nullable=True)
-    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    created_at = Column(DateTime, default=utc_now, nullable=False)
 
 
 class InventoryTransaction(Base):
@@ -68,7 +72,7 @@ class InventoryTransaction(Base):
     quantity_delta = Column(Float, nullable=False)
     unit = Column(String(30), nullable=False)
     reason = Column(String(200), nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    created_at = Column(DateTime, default=utc_now, nullable=False)
 
 
 class Recipe(Base):
@@ -80,7 +84,7 @@ class Recipe(Base):
     name = Column(String(160), nullable=False)
     instructions = Column(Text, default="", nullable=False)
     servings = Column(Integer, default=1, nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    created_at = Column(DateTime, default=utc_now, nullable=False)
 
     ingredients = relationship("RecipeIngredient", back_populates="recipe", cascade="all, delete-orphan")
 
@@ -107,7 +111,7 @@ class MealLog(Base):
     user_id = Column(ForeignKey("users.id"), nullable=False)
     servings = Column(Integer, nullable=False)
     notes = Column(Text, default="", nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    created_at = Column(DateTime, default=utc_now, nullable=False)
 
 
 class ShoppingList(Base):
@@ -116,7 +120,7 @@ class ShoppingList(Base):
     id = Column(Integer, primary_key=True)
     household_id = Column(ForeignKey("households.id"), nullable=False)
     name = Column(String(160), nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    created_at = Column(DateTime, default=utc_now, nullable=False)
 
 
 class ShoppingListItem(Base):

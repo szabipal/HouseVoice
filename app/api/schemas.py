@@ -1,6 +1,6 @@
 from datetime import date, datetime
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from app.domain.enums import TransactionType, Visibility
 
@@ -11,12 +11,11 @@ class UserCreate(BaseModel):
 
 
 class UserRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     display_name: str
     telegram_id: int | None = None
-
-    class Config:
-        orm_mode = True
 
 
 class HouseholdCreate(BaseModel):
@@ -25,11 +24,10 @@ class HouseholdCreate(BaseModel):
 
 
 class HouseholdRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     name: str
-
-    class Config:
-        orm_mode = True
 
 
 class InventoryItemCreate(BaseModel):
@@ -44,6 +42,8 @@ class InventoryItemCreate(BaseModel):
 
 
 class InventoryItemRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     household_id: int
     owner_user_id: int
@@ -53,11 +53,10 @@ class InventoryItemRead(BaseModel):
     visibility: Visibility
     expiry_date: date | None
 
-    class Config:
-        orm_mode = True
-
 
 class InventoryTransactionRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     inventory_item_id: int
     user_id: int
@@ -66,9 +65,6 @@ class InventoryTransactionRead(BaseModel):
     unit: str
     reason: str
     created_at: datetime
-
-    class Config:
-        orm_mode = True
 
 
 class RecipeIngredientCreate(BaseModel):
@@ -86,16 +82,17 @@ class RecipeCreate(BaseModel):
 
 
 class RecipeIngredientRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     name: str
     quantity: float
     unit: str
 
-    class Config:
-        orm_mode = True
-
 
 class RecipeRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     household_id: int
     owner_user_id: int
@@ -103,9 +100,6 @@ class RecipeRead(BaseModel):
     servings: int
     instructions: str
     ingredients: list[RecipeIngredientRead] = []
-
-    class Config:
-        orm_mode = True
 
 
 class RecipeCheckRead(BaseModel):
@@ -121,12 +115,11 @@ class MealLogCreate(BaseModel):
 
 
 class MealLogRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     household_id: int
     recipe_id: int | None
     user_id: int
     servings: int
     notes: str
-
-    class Config:
-        orm_mode = True

@@ -1,0 +1,9 @@
+[project]
+name = "kitchen-household-assistant"
+version = "0.1.0"
+description = "FastAPI backend for a Telegram-based household kitchen and grocery assistant."
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

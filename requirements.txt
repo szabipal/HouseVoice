@@ -1,10 +1,11 @@
-fastapi
-uvicorn
-python-telegram-bot
-requests
-python-dotenv
-openai
-tenacity
-sqlalchemy
-pydantic
-pytest
+# Requires Python 3.11+
+fastapi==0.141.1
+uvicorn==0.53.0
+python-telegram-bot==22.8
+requests==2.34.2
+python-dotenv==1.2.3
+openai==3.14.0
+tenacity==9.1.4
+sqlalchemy==2.0.53
+pydantic==2.13.5
+pytest==9.1.1

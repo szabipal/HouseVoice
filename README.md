@@ -19,6 +19,7 @@ OCR and LLM behavior is currently deterministic and mocked behind clear interfac
 
 ## Stack
 
+- Python 3.11+
 - FastAPI
 - SQLAlchemy
 - Pydantic
@@ -28,7 +29,7 @@ OCR and LLM behavior is currently deterministic and mocked behind clear interfac
 ## Run Locally
 
 ```bash
-python -m venv venv
+python3.12 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env
