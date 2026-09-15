@@ -42,3 +42,9 @@ Expected response:
 ## Database
 
 SQLite is fine for local demos. For a real multi-user deployment, use managed Postgres and run migrations before startup.
+
+Run migrations with:
+
+```bash
+alembic upgrade head
+```
