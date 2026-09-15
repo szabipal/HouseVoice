@@ -1,4 +1,5 @@
 from logging.config import fileConfig
+from pathlib import Path
 
 from alembic import context
 from sqlalchemy import engine_from_config, pool
@@ -12,6 +13,9 @@ fileConfig(config.config_file_name)
 
 config.set_main_option("sqlalchemy.url", get_settings().database_url)
 target_metadata = Base.metadata
+
+if get_settings().database_url.startswith("sqlite:///"):
+    Path(get_settings().database_url.replace("sqlite:///", "", 1)).parent.mkdir(parents=True, exist_ok=True)
 
 
 def run_migrations_offline() -> None:
