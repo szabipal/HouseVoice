@@ -1,21 +1,24 @@
 # Kitchen Household Assistant
 
-Production-style Python backend for a Telegram-based household kitchen and grocery assistant.
+FastAPI backend for a Telegram-based kitchen assistant that helps a household track inventory, recipes, receipt ingestion, and private versus shared food visibility.
 
-## Current Scope
+## Why It Exists
 
-This foundation implements a small vertical slice:
+Kitchen inventory is messy because items are shared, personal, expiring, and often entered from receipts. This project models those workflows as a small production-style backend with clear service boundaries and deterministic tests.
 
-- Create users
-- Create households
+## Features
+
+- Create users and households
 - Add shared or private inventory items
-- List inventory visible to a user
-- Create recipes
-- Check whether a recipe can be made from visible inventory
-- Log a cooked recipe and deduct ingredients
-- Record inventory transactions for inventory changes
+- List only the inventory visible to a user
+- Create recipes with ingredients
+- Check whether a recipe can be cooked from visible inventory
+- Log a meal and deduct used ingredients
+- Record inventory transactions for auditability
+- Receive Telegram webhook updates through an interface layer
+- Keep OCR/LLM behavior behind validated interfaces
 
-OCR and LLM behavior is currently deterministic and mocked behind clear interfaces.
+OCR and LLM behavior is deterministic by default so the core backend can be tested without external credentials.
 
 ## Stack
 
@@ -24,7 +27,21 @@ OCR and LLM behavior is currently deterministic and mocked behind clear interfac
 - SQLAlchemy
 - Pydantic
 - pytest
-- Docker / docker-compose
+- Docker
+
+## Architecture
+
+```text
+Telegram / HTTP
+  -> FastAPI routes
+  -> Telegram handlers
+  -> services
+  -> repositories
+  -> SQLAlchemy models
+  -> SQLite locally
+```
+
+Business rules live in `app/domain/rules`. Services orchestrate workflows. Repositories own database access. LLM and OCR integrations live behind `app/llm` and `app/vision`.
 
 ## Run Locally
 
@@ -52,9 +69,24 @@ docker compose up --build
 ## Tests
 
 ```bash
-pytest
+python -m pytest -q
 ```
 
-## Architecture
+## Demo Flow
 
-Telegram handlers are interface-only. Workflows live in services, database access lives in repositories, deterministic logic lives in domain rules, and AI/OCR integrations are isolated behind `app/llm` and `app/vision`.
+The core interview demo is documented in [docs/demo_script.md](docs/demo_script.md). It walks through user creation, household setup, private/shared inventory, recipe checks, and meal logging.
+
+## Configuration
+
+```text
+DATABASE_URL=sqlite:///data/kitchen_assistant.db
+TELEGRAM_TOKEN=
+TELEGRAM_WEBHOOK_SECRET=
+OPENAI_API_KEY=
+```
+
+`TELEGRAM_TOKEN` and `OPENAI_API_KEY` are optional for the local API demo. They are only needed for real Telegram and OpenAI integrations.
+
+## Status
+
+This is a portfolio backend, not a hosted production service yet. Next steps are webhook security, deployment docs, and database migrations.
