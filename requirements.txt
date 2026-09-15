@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+python-telegram-bot
+requests
+python-dotenv
+openai
+tenacity
+sqlalchemy
+pydantic
+pytest

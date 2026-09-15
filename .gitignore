@@ -1,0 +1,45 @@
+# Environment & secrets
+.env
+!.env.example
+ah_token.json
+
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# Data & personal content (never commit)
+data/
+vaults/
+logs/
+
+# Local launchers and assistant-specific notes
+*.command
+CLAUDE.md
+README_LAUNCHER.md
+
+# Legacy local-assistant prototype files kept out of the public baseline
+app/agent.py
+app/executor.py
+app/router.py
+app/routing_rules.py
+app/vault.py
+app/workflow.py
+app/tools/
+app/legacy_llm.py
+app/legacy_sqlite_db.py
+
+# Migration artifacts
+*.bak
+
+# macOS
+.DS_Store
+.AppleDouble
+
+# IDE
+.vscode/
+.idea/
