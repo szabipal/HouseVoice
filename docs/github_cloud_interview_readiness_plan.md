@@ -1,5 +1,7 @@
 # GitHub, Cloud, and Interview Readiness Plan
 
+Status: historical execution plan. Most phases below have already landed. Use [implementation_roadmap.md](implementation_roadmap.md) for the current next branches.
+
 This plan turns the current local prototype into a clean public project, deployable service, and interview-ready portfolio piece. It covers the requested priority sequence: clean git state and first commit, fix tests and CI, add deployment/repo hygiene, secure webhook and APIs, then add cloud deployment and migrations.
 
 ## Execution Rules

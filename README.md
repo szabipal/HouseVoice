@@ -93,4 +93,4 @@ Set `TELEGRAM_WEBHOOK_SECRET` and `DEMO_API_KEY` before exposing the app publicl
 
 ## Status
 
-This is a portfolio backend, not a hosted production service yet. Next steps are webhook security, deployment docs, and database migrations.
+This is a portfolio backend, not a hosted production service yet. The current implementation roadmap is in [docs/implementation_roadmap.md](docs/implementation_roadmap.md).
