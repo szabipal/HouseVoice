@@ -4,6 +4,10 @@ This plan turns the current local prototype into a clean public project, deploya
 
 ## Execution Rules
 
+- Use Ponytail full mode for every phase: smallest diff that satisfies the acceptance criteria.
+- Prefer deletion, stdlib, existing code, and platform defaults before adding code, tools, or dependencies.
+- Do not add future-proofing, scaffolding, abstractions, or docs that are not needed for the current phase gate.
+- Each test addition must prove a branch, trust boundary, or user-visible workflow; skip tests for trivial one-line metadata/docs changes.
 - Work one thematic branch at a time.
 - Each branch must start from the latest `main`.
 - Each branch must end with tests passing before merge.
@@ -47,7 +51,7 @@ Create a clean, truthful baseline commit that contains the current intended appl
 
 Scope:
 
-- Resolve the staged/unstaged mismatch between legacy flat modules and the newer structured app.
+- Resolve the staged/unstaged mismatch between legacy flat modules and the newer structured app with the fewest index changes possible.
 - Decide whether the current project identity is `Kitchen Household Assistant` or `HouseVoice`, then make docs consistent.
 - Remove local-only files from the git index if staged by mistake.
 - Keep `.env.example`; exclude `.env`.
@@ -102,7 +106,7 @@ Scope:
 
 - Investigate and fix the current `venv/bin/pytest` exit code `139`.
 - Create a fresh virtual environment to distinguish local environment corruption from code/test failure.
-- Pin dependencies or move to a minimal `pyproject.toml` with explicit runtime and dev dependencies.
+- Pin dependencies and add only the minimum package metadata needed to declare supported Python versions.
 - Add GitHub Actions CI for Python 3.11.
 - Fix Pydantic v2 config warnings by replacing `orm_mode` with `from_attributes`.
 - Ensure unit and integration tests can run with an isolated SQLite database.
@@ -154,12 +158,12 @@ Make the repository understandable and impressive to a reviewer within five minu
 Scope:
 
 - Rewrite README as a polished public-facing project page.
-- Add a clear feature list, architecture overview, tech stack, setup, test, Docker, and demo flow.
-- Add API examples for the main vertical slice.
-- Add a small architecture diagram in text or Mermaid.
+- Add a concise feature list, architecture overview, setup, test, Docker, and demo flow.
+- Add only the API examples needed for the main vertical slice.
+- Add a small architecture diagram only if it makes the README clearer than prose.
 - Add `LICENSE`.
 - Add a short `docs/demo_script.md` for interview walkthroughs.
-- Add `docs/engineering_decisions.md` covering privacy-aware inventory, LLM validation boundaries, and layered architecture.
+- Add `docs/engineering_decisions.md` only if those decisions would bloat the README.
 - Clearly mark incomplete features as roadmap, not broken functionality.
 
 Implementation Notes:
@@ -209,7 +213,7 @@ Scope:
 - Validate Telegram secret token header, expected as `X-Telegram-Bot-Api-Secret-Token`.
 - Return `403` for missing or invalid webhook secrets when a secret is configured.
 - Add tests for accepted/rejected webhook requests.
-- Decide and implement a minimal demo-safe API authentication strategy for non-Telegram mutation endpoints.
+- Decide and implement the smallest demo-safe API authentication strategy for non-Telegram mutation endpoints.
 - At minimum, document that the HTTP APIs are demo/internal unless protected behind auth or private networking.
 
 Implementation Notes:
@@ -267,7 +271,7 @@ Scope:
 - Support `PORT` environment variable if targeting platforms like Render/Railway/Fly.
 - Add deployment docs for one chosen provider.
 - Document required environment variables.
-- Add a production database recommendation.
+- Add a production database recommendation without implementing Postgres unless deployment requires it.
 - Add startup command examples.
 - Add health check guidance using `/health`.
 - Ensure Docker build context excludes local/private files via `.dockerignore`.
@@ -329,7 +333,7 @@ Replace prototype-only schema creation with a migration workflow suitable for cl
 
 Scope:
 
-- Add Alembic.
+- Add Alembic only if migration support is still needed after cloud target selection.
 - Generate initial migration from current SQLAlchemy models.
 - Document migration commands.
 - Keep local developer setup simple.
@@ -387,7 +391,7 @@ Create a polished, repeatable demo that showcases backend design, privacy rules,
 
 Scope:
 
-- Add seed/demo data or a demo script.
+- Add seed/demo data or a demo script, not both unless one cannot cover the demo.
 - Add a single command or documented sequence to run the vertical slice.
 - Add tests for the demo flow.
 - Ensure private/shared inventory behavior is visible in the demo.
