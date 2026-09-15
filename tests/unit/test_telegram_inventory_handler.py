@@ -56,6 +56,19 @@ def test_telegram_add_and_show_inventory(session):
     assert "milk: 1 l" in telegram.messages[1][1]
 
 
+def test_telegram_help_describes_supported_commands(session):
+    telegram = FakeTelegramClient()
+    handler = MessageHandler(session, telegram_client=telegram)
+
+    handler.handle_update(telegram_update("/help"))
+
+    assert telegram.messages[0][0] == 999
+    assert "Kitchen assistant commands:" in telegram.messages[0][1]
+    assert "add milk 1 l shared" in telegram.messages[0][1]
+    assert "show inventory" in telegram.messages[0][1]
+    assert "receipt photo" in telegram.messages[0][1]
+
+
 def test_telegram_receipt_photo_uses_receipt_service(session, monkeypatch):
     telegram = FakeTelegramClient()
     telegram.download_file = lambda file_id: b"receipt-bytes"

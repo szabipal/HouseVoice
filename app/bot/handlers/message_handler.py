@@ -5,6 +5,27 @@ from app.bot.telegram_client import TelegramClient
 from app.services.household_service import HouseholdService
 
 
+def help_response() -> str:
+    return "\n".join([
+        "Kitchen assistant commands:",
+        "",
+        "Inventory",
+        "- add milk 1 l shared",
+        "- add chocolate 1 piece private",
+        "- show inventory",
+        "",
+        "Receipts",
+        "- Send a receipt photo to add detected grocery items as shared inventory.",
+        "",
+        "Recipes",
+        "- /recipe commands are scaffolded, but not fully wired yet.",
+        "",
+        "Privacy",
+        "- shared items are visible to your household.",
+        "- private items are visible only to you.",
+    ])
+
+
 class MessageHandler:
     """Telegram interface layer. Business workflows live in services."""
 
@@ -41,6 +62,10 @@ class MessageHandler:
         if not text:
             return
 
+        if text.strip().lower() in {"/help", "help", "/start", "start"}:
+            self.telegram.send_message(chat_id, help_response())
+            return
+
         inventory_response = InventoryHandler(self.session).handle(text, household.id, user.id)
         if inventory_response:
             self.telegram.send_message(chat_id, inventory_response)
@@ -55,5 +80,5 @@ class MessageHandler:
 
         self.telegram.send_message(
             chat_id,
-            "Try: add milk 1 l shared, add chocolate 1 piece private, or show inventory.",
+            "I did not recognize that yet. Send /help to see what I can do.",
         )
