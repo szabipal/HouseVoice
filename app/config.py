@@ -18,6 +18,7 @@ class Settings:
     telegram_token: str
     telegram_webhook_secret: str
     openai_api_key: str
+    demo_api_key: str
 
 
 @lru_cache
@@ -28,4 +29,5 @@ def get_settings() -> Settings:
         telegram_token=os.getenv("TELEGRAM_TOKEN", ""),
         telegram_webhook_secret=os.getenv("TELEGRAM_WEBHOOK_SECRET", ""),
         openai_api_key=os.getenv("OPENAI_API_KEY", ""),
+        demo_api_key=os.getenv("DEMO_API_KEY", ""),
     )

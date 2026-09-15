@@ -83,9 +83,11 @@ DATABASE_URL=sqlite:///data/kitchen_assistant.db
 TELEGRAM_TOKEN=
 TELEGRAM_WEBHOOK_SECRET=
 OPENAI_API_KEY=
+DEMO_API_KEY=
 ```
 
 `TELEGRAM_TOKEN` and `OPENAI_API_KEY` are optional for the local API demo. They are only needed for real Telegram and OpenAI integrations.
+Set `TELEGRAM_WEBHOOK_SECRET` and `DEMO_API_KEY` before exposing the app publicly.
 
 ## Status
 
