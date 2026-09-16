@@ -1,5 +1,7 @@
 # Demo Script
 
+This script is designed for a short portfolio walkthrough. It shows the API surface first, then the Telegram interface.
+
 Run the app:
 
 ```bash
@@ -65,3 +67,24 @@ List inventory:
 ```bash
 curl -s 'http://127.0.0.1:8000/households/1/inventory?user_id=1'
 ```
+
+## Telegram Demo
+
+With a deployed service and Telegram webhook configured, send these messages to the bot:
+
+```text
+/help
+add milk 1 l shared
+add chocolate 1 piece private
+show inventory
+```
+
+Then send a receipt photo. If `OPENAI_API_KEY` is configured, the receipt image is sent through the OpenAI-backed receipt extraction path. Without a key, the app uses deterministic fallback behavior so the rest of the workflow can still be tested.
+
+## What To Point Out
+
+- Routes are thin and delegate to services.
+- Services use repositories rather than embedding persistence logic in handlers.
+- Inventory visibility is enforced in the domain/service layer.
+- Telegram is an interface on top of the same backend workflows, not a separate application.
+- External AI behavior is isolated behind `app/llm/client.py` and validated before it mutates inventory.

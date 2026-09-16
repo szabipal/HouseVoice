@@ -21,6 +21,10 @@ logs/
 *.command
 CLAUDE.md
 README_LAUNCHER.md
+text_editor.txt
+uv.lock
+docs/*_roadmap.md
+docs/*_readiness_plan.md
 
 # Legacy local-assistant prototype files kept out of the public baseline
 app/agent.py
